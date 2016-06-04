@@ -1,8 +1,0 @@
-<component name="ArtifactManager">
-  <artifact type="exploded-war" name="CVNator">
-    <output-path>$PROJECT_DIR$/out/artifacts/CVNator</output-path>
-    <root id="root">
-      <element id="module-output" name="CVNator" />
-    </root>
-  </artifact>
-</component>

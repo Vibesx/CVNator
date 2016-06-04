@@ -1,49 +1,56 @@
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<%@page session="true"%>
-<html>
+<%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
+
+<c:set var="contextPath" value="${pageContext.request.contextPath}"/>
+
+<!DOCTYPE html>
+<html lang="en">
 <head>
-	<link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/WEB-INF/style/main.css">
-<title>Login Page</title>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+    <meta name="description" content="">
+    <meta name="author" content="">
 
+    <title>Log in with your account</title>
+
+    <link href="${contextPath}/resources/css/bootstrap.min.css" rel="stylesheet">
+    <link href="${contextPath}/resources/css/common.css" rel="stylesheet">
+
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+    <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
 </head>
-<body onload='document.loginForm.username.focus();'>
 
-	<h1>Spring Security Login Form (Database Authentication)</h1>
+<body>
 
-	<div id="login-box">
+<div class="container">
 
-		<h3>Login with Username and Password</h3>
+    <form method="POST" action="${contextPath}/login" class="form-signin">
+        <h2 class="form-heading">Log in</h2>
 
-		<c:if test="${not empty error}">
-			<div class="error">${error}</div>
-		</c:if>
-		<c:if test="${not empty msg}">
-			<div class="msg">${msg}</div>
-		</c:if>
+        <div class="form-group ${error != null ? 'has-error' : ''}">
+            <span>${message}</span>
+            <input name="username" type="text" class="form-control" placeholder="Username"
+                   autofocus="true"/>
+            <input name="password" type="password" class="form-control" placeholder="Password"/>
+            <span>${error}</span>
+            <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
 
-		<form name='loginForm'
-			action="<c:url value='/j_spring_security_check' />" method='POST'>
+            <button class="btn btn-lg btn-primary btn-block" type="submit">Log In</button>
+            <h4 class="text-center"><a href="${contextPath}/registration">Create an account</a></h4>
+            <h4 class="text-center"><a href="${contextPath}/generatecv">Create your CV</a></h4>
+        </div>
 
-			<table>
-				<tr>
-					<td>User:</td>
-					<td><input type='text' name='username'></td>
-				</tr>
-				<tr>
-					<td>Password:</td>
-					<td><input type='password' name='password' /></td>
-				</tr>
-				<tr>
-					<td colspan='2'><input name="submit" type="submit"
-						value="submit" /></td>
-				</tr>
-			</table>
+    </form>
 
-			<input type="hidden" name="${_csrf.parameterName}"
-				value="${_csrf.token}" />
-
-		</form>
-	</div>
-
+</div>
+<!-- /container -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+<script src="${contextPath}/resources/js/bootstrap.min.js"></script>
 </body>
 </html>
