@@ -35,6 +35,8 @@
 
     </c:if>
 
+    <h4 class="text-center"><a href="${contextPath}/generatecv">Create your CV</a></h4>
+
 </div>
 <!-- /container -->
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>

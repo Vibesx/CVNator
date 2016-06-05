@@ -1,8 +1,12 @@
 package com.leon.CVNator.model;
 
+import javax.persistence.*;
+
 /**
  * Created by Leon on 6/2/2016.
  */
+@Entity
+@Table(name = "cv")
 public class CV {
     private Long id;
     private Long userId;
@@ -18,6 +22,8 @@ public class CV {
     private String education;
     private String workExperience;
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     public Long getId() {
         return id;
     }

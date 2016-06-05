@@ -1,6 +1,9 @@
 package com.leon.CVNator.web;
 
 import com.leon.CVNator.enums.Gender;
+import com.leon.CVNator.model.CustomField;
+import com.leon.CVNator.service.CVService;
+import com.leon.CVNator.service.CustomFieldService;
 import com.leon.CVNator.service.SecurityService;
 import com.leon.CVNator.service.UserService;
 import com.leon.CVNator.validator.UserValidator;
@@ -8,6 +11,8 @@ import com.leon.CVNator.model.CV;
 import com.leon.CVNator.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.propertyeditors.CustomDateEditor;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -23,12 +28,18 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 @Controller
-public class UserController {
+public class MainController {
     @Autowired
     private UserService userService;
 
     @Autowired
     private SecurityService securityService;
+
+    @Autowired
+    private CustomFieldService customFieldService;
+
+    @Autowired
+    private CVService cvService;
 
     @Autowired
     private UserValidator userValidator;
@@ -42,11 +53,11 @@ public class UserController {
 
     @RequestMapping(value = "/registration", method = RequestMethod.POST)
     public String registration(@ModelAttribute("userForm") User userForm, BindingResult bindingResult, Model model) {
-        userValidator.validate(userForm, bindingResult);
+        /*userValidator.validate(userForm, bindingResult);
 
         if (bindingResult.hasErrors()) {
             return "registration";
-        }
+        }*/
 
         userService.save(userForm);
 
@@ -70,7 +81,34 @@ public class UserController {
         System.out.println(cv.getGender().toString());
         System.out.println(cv.getEducation());
 
-        return "redirect:/welcome";
+        cv.setUserId(getCurrentUserId());
+
+        cvService.save(cv);
+
+        return "redirect:/generatecv";
+    }
+
+
+
+    @RequestMapping(value = "/addnewfield", method = RequestMethod.GET)
+    public String addNewField(Model model) {
+        model.addAttribute("addNewFieldForm", new CustomField());
+        //model.addAttribute("genders", Gender.values());
+
+        return "forms/addfieldform";
+    }
+
+    @RequestMapping(value = "/addnewfield", method = RequestMethod.POST)
+    public String generateCV(@ModelAttribute("addNewFieldForm") CustomField customField, BindingResult bindingResult, Model model) {
+        System.out.println(customField.getName());
+        System.out.println(customField.getType());
+        //System.out.println(cv.getGender().toString());
+        //System.out.println(cv.getEducation());
+        customField.setUserId(getCurrentUserId());
+
+        customFieldService.save(customField);
+
+        return "redirect:/generatecv";
     }
 
     @RequestMapping(value = "/login", method = RequestMethod.GET)
@@ -114,5 +152,14 @@ public class UserController {
                 return ((Gender) getValue()).name();
             }
         });
+    }
+
+    private Long getCurrentUserId() {
+        String currentUsername = SecurityContextHolder.getContext().getAuthentication().getName();
+        User user = userService.findByUsername(currentUsername);
+        if(user != null) {
+            return user.getId();
+        }
+        return null;
     }
 }
