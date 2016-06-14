@@ -25,7 +25,6 @@
                 <option value="textfield">Text Field</option>
                 <option value="radio">Radio Button</option>
                 <option value="dropdown">Drop Down</option>
-                <option value="checkbox">Checkbox</option>
             </select>
             <div id="options" style="display: none">
                 <p>Options:</p>

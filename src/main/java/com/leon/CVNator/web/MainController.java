@@ -18,14 +18,12 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.DataBinder;
 import org.springframework.web.bind.WebDataBinder;
-import org.springframework.web.bind.annotation.InitBinder;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.*;
 
 import java.beans.PropertyEditorSupport;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 
 @Controller
 public class MainController {
@@ -43,6 +41,8 @@ public class MainController {
 
     @Autowired
     private UserValidator userValidator;
+
+    private Long customFieldsCount = 0L;
 
     @RequestMapping(value = "/registration", method = RequestMethod.GET)
     public String registration(Model model) {
@@ -66,22 +66,50 @@ public class MainController {
         return "redirect:/welcome";
     }
 
+    /*@RequestMapping(value = "/saveadditionalfields", method = RequestMethod.POST)
+    public String saveCustomField(@ModelAttribute("newCVForm") CustomField cf, BindingResult bindingResult, Model model) {
+
+        //cf.setUserId(getCurrentUserId());
+
+        customFieldService.save(cf);
+
+        return "redirect:/generatecv";
+    }*/
+
     @RequestMapping(value = "/generatecv", method = RequestMethod.GET)
     public String generateCV(Model model) {
-        model.addAttribute("newCVForm", new CV());
+        CV cvList = cvService.findByUserId(getCurrentUserId());
+        if(cvList != null) {
+            model.addAttribute("newCVForm", cvList);
+        } else {
+            model.addAttribute("newCVForm", new CV());
+        }
+        List<CustomField> customFields = customFieldService.findByUserId(getCurrentUserId());
+        model.addAttribute("customFields", customFields);
+        for(CustomField cf : customFields) {
+            model.addAttribute("customField" + customFieldsCount, customFields);
+            customFieldsCount++;
+        }
         //model.addAttribute("genders", Gender.values());
 
         return "generatecv";
     }
 
     @RequestMapping(value = "/generatecv", method = RequestMethod.POST)
-    public String generateCV(@ModelAttribute("newCVForm") CV cv, BindingResult bindingResult, Model model) {
-        System.out.println(cv.getAddress());
-        System.out.println(cv.getDateOfBirth());
-        System.out.println(cv.getGender().toString());
-        System.out.println(cv.getEducation());
+    public String generateCV(@ModelAttribute("newCVForm") CV cv, @RequestParam("customField") List<String> requestedCustomFields, BindingResult bindingResult, Model model) {
 
-        cv.setUserId(getCurrentUserId());
+        List<CustomField> customFields = customFieldService.findByUserId(getCurrentUserId());
+        for(int i = 0; i < customFields.size(); i++) {
+            CustomField tempCF = customFields.get(i);
+            tempCF.setValue(requestedCustomFields.get(i));
+            customFieldService.save(tempCF);
+        }
+        Long currentUserId = getCurrentUserId();
+        cv.setUserId(currentUserId);
+        CV foundCv = cvService.findByUserId(currentUserId);
+        if(foundCv != null) {
+            cv.setId(foundCv.getId());
+        }
 
         cvService.save(cv);
 
@@ -153,6 +181,13 @@ public class MainController {
             }
         });
     }
+
+    @RequestMapping(value = "/getAllCustomFields", method = RequestMethod.GET)
+    public @ResponseBody List<CustomField> getAllCustomFields() {
+        List<CustomField> customFields = customFieldService.findByUserId(getCurrentUserId());
+        return customFields;
+    }
+
 
     private Long getCurrentUserId() {
         String currentUsername = SecurityContextHolder.getContext().getAuthentication().getName();

@@ -12,6 +12,7 @@ public class CustomField {
     private Long userId;
     private String name;
     private String type;
+    private String value;
     private String option1;
     private String option2;
     private String option3;
@@ -109,5 +110,13 @@ public class CustomField {
 
     public void setOption6(String option6) {
         this.option6 = option6;
+    }
+
+    public String getValue() {
+        return value;
+    }
+
+    public void setValue(String value) {
+        this.value = value;
     }
 }

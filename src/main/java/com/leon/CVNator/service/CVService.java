@@ -10,5 +10,5 @@ import java.util.List;
 public interface CVService {
     void save(CV cv);
 
-    List<CV> findByUserId(Long userId);
+    CV findByUserId(Long userId);
 }

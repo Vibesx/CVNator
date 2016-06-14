@@ -21,7 +21,7 @@ public class CVServiceImpl implements CVService{
     }
 
     @Override
-    public List<CV> findByUserId(Long userId) {
+    public CV findByUserId(Long userId) {
         return cvRepo.findAllByUserId(userId);
     }
 }
