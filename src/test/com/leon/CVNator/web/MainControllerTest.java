@@ -3,7 +3,7 @@ package com.leon.CVNator.web;
 import junit.framework.TestCase;
 
 /**
- * Created by ClaudiuDiana on 6/14/2016.
+ * Created by Claudiu on 6/14/2016.
  */
 public class MainControllerTest extends TestCase {
     public void testRegistration() throws Exception {
