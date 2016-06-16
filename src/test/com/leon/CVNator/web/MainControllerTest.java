@@ -2,10 +2,13 @@ package com.leon.CVNator.web;
 
 import junit.framework.TestCase;
 
+import static org.junit.Assert.assertEquals;
+
 /**
  * Created by Claudiu on 6/14/2016.
  */
 public class MainControllerTest extends TestCase {
+
     public void testRegistration() throws Exception {
 
     }
