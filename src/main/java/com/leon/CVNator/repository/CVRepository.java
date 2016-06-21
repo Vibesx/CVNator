@@ -10,4 +10,7 @@ import java.util.List;
  */
 public interface CVRepository extends JpaRepository<CV, Long>{
     CV findAllByUserId(Long userId);
+
+    CV findByCvName(String name);
+
 }

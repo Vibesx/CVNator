@@ -1,5 +1,3 @@
-package com.leon.CVNator.validator;
-
 import com.leon.CVNator.model.User;
 import com.leon.CVNator.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -11,4 +11,6 @@ public interface CVService {
     void save(CV cv);
 
     CV findByUserId(Long userId);
+
+    CV findByCvName(String name);
 }

@@ -1,5 +1,7 @@
 package com.leon.CVNator.model;
 
+import com.mysql.jdbc.Blob;
+
 import javax.persistence.*;
 
 /**
@@ -10,8 +12,11 @@ import javax.persistence.*;
 public class CV {
     private Long id;
     private Long userId;
+    //private String cvName;
     private String firstName;
     private String lastName;
+    /*private String photoString;
+    private Blob photo;*/
     private String gender;
     private String dateOfBirth;
     private String email;
@@ -127,4 +132,28 @@ public class CV {
     public void setWorkExperience(String workExperience) {
         this.workExperience = workExperience;
     }
+
+    /*public String getCvName() {
+        return cvName;
+    }
+
+    public void setCvName(String cvName) {
+        this.cvName = cvName;
+    }*/
+
+    /*public String getPhotoString() {
+        return photoString;
+    }
+
+    public void setPhotoString(String photoString) {
+        this.photoString = photoString;
+    }
+
+    public Blob getPhoto() {
+        return photo;
+    }
+
+    public void setPhoto(Blob photo) {
+        this.photo = photo;
+    }*/
 }

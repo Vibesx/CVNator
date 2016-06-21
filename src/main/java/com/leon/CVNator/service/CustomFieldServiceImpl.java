@@ -24,4 +24,9 @@ public class CustomFieldServiceImpl implements CustomFieldService {
     public List<CustomField> findByUserId(Long userId) {
         return customFieldRepository.findAllByUserId(userId);
     }
+
+    /*@Override
+    public CustomField findByCvId(Long id) {
+        return customFieldRepository.findByCvId(id);
+    }*/
 }

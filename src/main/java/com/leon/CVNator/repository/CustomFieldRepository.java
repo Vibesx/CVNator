@@ -10,4 +10,6 @@ import java.util.List;
  */
 public interface CustomFieldRepository extends JpaRepository<CustomField, Long> {
     List<CustomField> findAllByUserId(Long userId);
+
+    List<CustomField> findByCvId(Long id);
 }

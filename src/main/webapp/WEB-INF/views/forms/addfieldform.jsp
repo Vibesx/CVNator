@@ -32,7 +32,7 @@
             <button type="button" id="addnewoption" style="display: none">Add new option</button>
             <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
 
-            <button class="btn btn-lg btn-primary btn-block" type="submit" onclick="window.close()">Create Field</button>
+            <button class="btn btn-lg btn-primary btn-block" type="submit" <%--onclick="window.close()"--%>>Create Field</button>
         </div>
 
     </form>

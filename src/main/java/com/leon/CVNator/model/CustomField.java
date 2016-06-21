@@ -10,6 +10,7 @@ import javax.persistence.*;
 public class CustomField {
     private Long id;
     private Long userId;
+    private Long cvId;
     private String name;
     private String type;
     private String value;
@@ -118,5 +119,13 @@ public class CustomField {
 
     public void setValue(String value) {
         this.value = value;
+    }
+
+    public Long getCvId() {
+        return cvId;
+    }
+
+    public void setCvId(Long cvId) {
+        this.cvId = cvId;
     }
 }

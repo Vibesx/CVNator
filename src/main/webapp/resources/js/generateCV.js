@@ -7,12 +7,15 @@
 console.log(customFieldsArray.value);*/
 
 var cvSubmitButton = document.getElementById("cvSubmitButton");
+var addNewFieldButton = document.getElementById("addNewFieldButton");
 
-document.getElementById("addNewFieldButton").addEventListener("click", function() {
-    window.open("/addnewfield", null, "height=500, width=900, status=yes");
-});
+if(addNewFieldButton != null) {
+    addNewFieldButton.addEventListener("click", function() {
+        window.open("/addnewfield", null, "height=500, width=900, status=yes");
+    });
+}
 
-document.getElementById("parentButton").addEventListener("click", function() {
+/*document.getElementById("parentButton").addEventListener("click", function() {
     var arr = document.getElementsByName('submitButton1');
     for(var i = 0; i < arr.length; i++) {
         arr[i].id = 'tempButtonId' + i;
@@ -20,7 +23,7 @@ document.getElementById("parentButton").addEventListener("click", function() {
     for(i = 0; i < arr.length; i++) {
         document.getElementById('tempButtonId' + i).click();
     }
-});
+});*/
 
 /*cvSubmitButton.addEventListener("click", function() {
     if(radioButtons.length > 0) {

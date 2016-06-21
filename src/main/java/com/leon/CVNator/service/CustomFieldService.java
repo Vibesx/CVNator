@@ -11,4 +11,6 @@ public interface CustomFieldService {
     void save(CustomField customField);
 
     List<CustomField> findByUserId(Long userId);
+
+    /*CustomField findByCvId(Long id);*/
 }

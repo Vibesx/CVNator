@@ -6,7 +6,7 @@ import com.leon.CVNator.service.CVService;
 import com.leon.CVNator.service.CustomFieldService;
 import com.leon.CVNator.service.SecurityService;
 import com.leon.CVNator.service.UserService;
-import com.leon.CVNator.validator.UserValidator;
+//import com.leon.CVNator.validator.UserValidator;
 import com.leon.CVNator.model.CV;
 import com.leon.CVNator.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,6 +22,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.beans.PropertyEditorSupport;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -39,8 +40,8 @@ public class MainController {
     @Autowired
     private CVService cvService;
 
-    @Autowired
-    private UserValidator userValidator;
+    /*@Autowired
+    private UserValidator userValidator;*/
 
     private Long customFieldsCount = 0L;
 
@@ -63,7 +64,7 @@ public class MainController {
 
         securityService.autologin(userForm.getUsername(), userForm.getPasswordConfirm());
 
-        return "redirect:/welcome";
+        return "redirect:/index";
     }
 
     /*@RequestMapping(value = "/saveadditionalfields", method = RequestMethod.POST)
@@ -76,14 +77,39 @@ public class MainController {
         return "redirect:/generatecv";
     }*/
 
+    @RequestMapping(value = "/export" , method = RequestMethod.GET)
+    public String export(Model model) {
+        CV cv = cvService.findByUserId(getCurrentUserId());
+
+        if(cv != null) {
+            model.addAttribute("firstName", cv.getFirstName());
+            model.addAttribute("lastName", cv.getLastName());
+            model.addAttribute("gender", cv.getGender());
+            model.addAttribute("dateOfBirth", cv.getDateOfBirth());
+            model.addAttribute("email", cv.getEmail());
+            model.addAttribute("address", cv.getAddress());
+            model.addAttribute("country", cv.getCountry());
+            model.addAttribute("nationality", cv.getNationality());
+            model.addAttribute("phoneNumber", cv.getPhoneNumber());
+            model.addAttribute("education", cv.getEducation());
+            model.addAttribute("workExperience", cv.getWorkExperience());
+            List<CustomField> customFields = customFieldService.findByUserId(getCurrentUserId());
+            model.addAttribute("customFields", customFields);
+        }
+
+        return "export";
+    }
+
     @RequestMapping(value = "/generatecv", method = RequestMethod.GET)
     public String generateCV(Model model) {
         CV cvList = cvService.findByUserId(getCurrentUserId());
+
         if(cvList != null) {
             model.addAttribute("newCVForm", cvList);
         } else {
             model.addAttribute("newCVForm", new CV());
         }
+        //model.addAttribute("newCVForm", new CV());
         List<CustomField> customFields = customFieldService.findByUserId(getCurrentUserId());
         model.addAttribute("customFields", customFields);
         for(CustomField cf : customFields) {
@@ -94,6 +120,16 @@ public class MainController {
 
         return "generatecv";
     }
+
+    /*@RequestMapping(value = "/loadcv", method = RequestMethod.POST)
+    public String loadCV(@ModelAttribute("selectedCv") String selectedCV, BindingResult bindingResult, Model model) {
+        CV cv = cvService.findByCvName(selectedCV);
+        List<CustomField> customFields = new ArrayList<>();
+        if(cv != null) {
+            customFields = customFieldService.findByCvId(cv.getId());
+        }
+        return "generatecv";
+    }*/
 
     @RequestMapping(value = "/generatecv", method = RequestMethod.POST)
     public String generateCV(@ModelAttribute("newCVForm") CV cv, @RequestParam("customField") List<String> requestedCustomFields, BindingResult bindingResult, Model model) {
@@ -107,6 +143,7 @@ public class MainController {
         Long currentUserId = getCurrentUserId();
         cv.setUserId(currentUserId);
         CV foundCv = cvService.findByUserId(currentUserId);
+        //CV foundCv = cvService.findByCvName(cv.getCvName());
         if(foundCv != null) {
             cv.setId(foundCv.getId());
         }
@@ -136,7 +173,7 @@ public class MainController {
 
         customFieldService.save(customField);
 
-        return "redirect:/generatecv";
+        return "forms/addfieldform";
     }
 
     @RequestMapping(value = "/login", method = RequestMethod.GET)
@@ -150,9 +187,14 @@ public class MainController {
         return "login";
     }
 
-    @RequestMapping(value = {"/", "/welcome"}, method = RequestMethod.GET)
+    @RequestMapping(value = {"/", "/index"}, method = RequestMethod.GET)
     public String welcome(Model model) {
-        return "welcome";
+        return "index";
+    }
+
+    @RequestMapping(value = {"/contact"}, method = RequestMethod.GET)
+    public String contact(Model model) {
+        return "contact";
     }
 
     @InitBinder
