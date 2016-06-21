@@ -25,8 +25,8 @@ public class CVServiceImpl implements CVService{
         return cvRepo.findAllByUserId(userId);
     }
 
-    @Override
+    /*@Override
     public CV findByCvName(String name) {
         return cvRepo.findByCvName(name);
-    }
+    }*/
 }

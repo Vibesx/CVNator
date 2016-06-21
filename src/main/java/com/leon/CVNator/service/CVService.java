@@ -12,5 +12,5 @@ public interface CVService {
 
     CV findByUserId(Long userId);
 
-    CV findByCvName(String name);
+    //CV findByCvName(String name);
 }

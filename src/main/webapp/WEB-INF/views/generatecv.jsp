@@ -119,13 +119,13 @@
                 <%--< class="form_container">--%>
                 <%--<label for="cvPhoto">Photo</label>
                 <form:input id="cvPhoto" path="photoString" name="photoString" type="file"/>--%>
-            <div>
+            <%--<div>
                 <label for="cvName">CV Name</label>
                 <br/>
                 <form:input id="cvName" path="cvName" name="cvName" type="text"
                             class="form-control"
                             autofocus="true"/>
-            </div>
+            </div>--%>
             <br/>
             <div>
                 <label for="cvFirstName">First Name</label>
