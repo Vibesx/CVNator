@@ -92,6 +92,7 @@
             <label for="cvWorkExperience">Work Experience</label>
             <form:textarea id="cvWorkExperience" path="workExperience" name="workExperience" rows="4"
                            cols="100"></form:textarea>
+            <input type="hidden" name="customField"/>
             <div id="additionalFields">
                 <c:forEach items="${customFields}" var="cf">
                     <c:if test="${cf.type == \"textinput\"}">
