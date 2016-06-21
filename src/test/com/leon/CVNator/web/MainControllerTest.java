@@ -10,8 +10,6 @@ import org.hibernate.AssertionFailure;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.test.AssertThrows;
@@ -28,7 +26,7 @@ import static org.junit.Assert.*;
  */
 
 @RunWith( SpringJUnit4ClassRunner.class )
-@ContextConfiguration("file:C:\\Users\\ClaudiuDiana\\Desktop\\CVNator\\src\\main\\webapp\\WEB-INF\\appconfig-root.xml")
+@ContextConfiguration("file:J:\\Facultate\\TW\\CVNator\\src\\main\\webapp\\WEB-INF\\appconfig-root.xml")
 public class MainControllerTest {
 
     @Autowired
@@ -49,7 +47,6 @@ public class MainControllerTest {
     @Autowired
     private BCryptPasswordEncoder bCryptPasswordEncoder;
 
-//    private static final Logger logger = LoggerFactory.getLogger(SecurityServiceImpl.class);
 
     @Test
     public void PopulateCV() {
@@ -164,12 +161,6 @@ public class MainControllerTest {
         assertEquals(msg,"Succes");
 
     }
-
-
-
-
-
-
 
 
 }
